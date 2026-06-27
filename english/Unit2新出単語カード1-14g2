@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英語 Room★ Unit2 単語1（No.1〜14）</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=M+PLUS+Rounded+1c:wght=400;700&display=swap');
+        
+        body {
+            font-family: 'M PLUS Rounded 1c', 'Kosugi Maru', sans-serif;
+            background-color: #f5f3ff;
+            color: #2d3748;
+            line-height: 1.6;
+            margin: 0;
+            padding: 12px;
+        }
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(109, 40, 217, 0.15);
+            border: 3px solid #6d28d9;
+        }
+        
+        .page-header {
+            text-align: center;
+            background: linear-gradient(135deg, #4c1d95 0%, #6d28d9 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .page-header h1 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .page-header p {
+            margin: 5px 0 0 0;
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        /* 問題カード */
+        .quiz-card {
+            background: #fafafa;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        .quiz-card.status-correct {
+            border-color: #10b981;
+            background-color: #f0fdf4;
+        }
+        .quiz-card.status-incorrect {
+            border-color: #ef4444;
+            background-color: #fef2f2;
+        }
+        
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .quiz-number {
+            font-weight: 700;
+            background: #6d28d9;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+        .status-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        
+        .quiz-word {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #4c1d95;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .choices-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .choice-btn {
+            background: #ffffff;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 12px 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            box-shadow: 0 4px 0 #cbd5e1;
+            text-align: center;
+        }
+        .choice-btn:active:not(.disabled) {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #cbd5e1;
+        }
+        
+        .choice-btn.is-correct-choice {
+            background-color: #10b981 !important;
+            border-color: #059669 !important;
+            color: white !important;
+            box-shadow: 0 4px 0 #047857 !important;
+        }
+        .choice-btn.is-wrong-choice {
+            background-color: #ef4444 !important;
+            border-color: #dc2626 !important;
+            color: white !important;
+            box-shadow: 0 4px 0 #b91c1c !important;
+        }
+        .choice-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .control-panel {
+            text-align: right;
+            margin-top: 8px;
+        }
+        .btn-reset {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: #64748b;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="page-header">
+        <h1>Unit 2 新出単語カード (No.1〜14)</h1>
+        <p>〜 確実におぼえていこう！タップして記録 〜</p>
+    </div>
+
+    <!-- Q1 -->
+    <div class="quiz-card" id="card-q1">
+        <div class="quiz-header"><span class="quiz-number">No.1</span><span class="status-badge" id="badge-q1">未解答</span></div>
+        <div class="quiz-word">especially</div>
+        <div class="choices-grid">
+            <button class="choice-btn" id="btn-q1-1" onclick="selectChoice('q1', 1, true)">特に、とりわけ</button>
+            <button class="choice-btn" id="btn-q1-2" onclick="selectChoice('q1', 2, false)">･･･を注文する</button>
+            <button class="choice-btn" id="btn-q1-3" onclick="selectChoice('q1', 3, false)">トッピング</button>
+            <button class="choice-btn" id="btn-q1-4" onclick="selectChoice('q1', 4, false)">いろいろな</button>
+        </div>
+        <div class="control-panel"><button class="btn-reset" onclick="resetQuizCard('q1')">リセット</button></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-card" id="card-q2">
+        <div class="quiz-header"><span class="quiz-number">No.2</span><span class="status-badge" id="badge-q2">未解答</span></div>
+        <div class="quiz-word">order</div>
+        <div class="choices-grid">
+            <button class="choice-btn" id="btn-q2-1" onclick="selectChoice('q2', 1, false)">味、風味</button>
+            <button class="choice-btn" id="btn-q2-2" onclick="selectChoice('q2', 2, true)">･･･を注文する</button>
+            <button class="choice-btn" id="btn-q2-3" onclick="selectChoice('q2', 3, false)">しょうゆ</button>
+            <button class="choice-btn" id="btn-q2-4" onclick="selectChoice('q2', 4, false)">塩</button>
+        </div>
+        <div class="control-panel"><button class="btn-reset" onclick="resetQuizCard('q2')">リセット</button></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-card" id="card-q3">
+        <div class="quiz-header"><span class="quiz-number">No.3</span><span class="status-badge" id="badge-q3">未解答</span></div>
+        <div class="quiz-word">topping</div>
+        <div class="choices-grid">
+            <button class="choice-btn" id="btn-q3-1" onclick="selectChoice('q3', 1, false)">･･･など</button>
+            <button class="choice-btn" id="btn-q3-2" onclick="selectChoice('q3', 2, false)">スピーチ、演説</button>
+            <button class="choice-btn" id="btn-q3-3" onclick="selectChoice('q3', 3, true)">トッピング</button>
+            <button class="choice-btn" id="btn-q3-4" onclick="selectChoice('q3', 4, false)">いつか、そのうち</button>
+        </div>
+        <div class="control-panel"><button class="btn-reset" onclick="resetQuizCard('q3')">リセット</button></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-card" id="card-q4">
+        <div class="quiz-header"><span class="quiz-number">No.4</span><span class="status-badge" id="badge-q4">未解答</span></div>
+        <div class="quiz-word">various</div>
+        <div class="choices-grid">
+            <button class="choice-btn" id="btn-q4-1" onclick="selectChoice('q4', 1, false)">もし･･･ならば</button>
+            <button class="choice-btn" id="btn-q4-2" onclick="selectChoice('q4', 2, false)">･･･を加える、足す</button>
+            <button class="choice-btn" id="btn-q4-3" onclick="selectChoice('q4', 3, false)">パター</button>
+            <button class="choice-btn" id="btn-q4-4" onclick="selectChoice('q4', 4, true)">いろいろな</button>
+        </div>
+        <div class="control-panel"><button class="btn-reset" onclick="resetQuizCard('q4')">リセット</button></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-card" id="card-q5">
+        <div class="quiz-header"><span class="quiz-number">No.5</span><span class="status-badge" id="badge-q5">未解答</span></div>
+        <div class="quiz-word">flavor(s)</div>
+        <div class="choices-grid">
+            <button class="choice-btn" id="btn-q5-1" onclick="selectChoice('q5', 1, true)">味、風味</button>
+            <button class="choice-btn" id="btn-q5-2" onclick="selectChoice('q5', 2, false)">塩</button>
+            <button class="choice-btn" id="btn-q5-3" onclick="selectChoice('q5', 3, false)">･･･したい</button>
+            <button class="choice-btn" id="btn-q5-4" onclick="selectChoice('q5', 4, false)">興味をもっている</button>
+        </div>
+        <div class="control-panel"><button class="btn-reset" onclick="resetQuizCard('q5')">リセット</button></div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="quiz-card" id="card-q6">
+        <div class="quiz-header"><span class="quiz-number">No.6</span><span class="status-badge" id="badge-q6">未解答</span></div>
+        <div class="quiz-word">soy sauce</div>
+        <div class="choices-grid">
+            <button class="choice-btn" id="btn-q6-1" onclick="selectChoice('q6', 1, false)">忘れる</button>
+            <button class="choice-btn" id="btn-q6-2" onclick="selectChoice('q6', 2, true)">しょうゆ</button>
+            <button class="choice-btn" id="btn-q6-3" onclick="selectChoice('q6', 3, false)">種類</button>
+            <button class="choice-btn" id="btn-q6-4" onclick="selectChoice('q6', 4, false)">･････をベースにした</button>
+        </div>
+        <div class="control-panel"><button class="btn-reset" onclick="resetQuizCard('q6')">リセット</button></div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="quiz-card" id="card-q7">
+        <div class="quiz-header"><span class="quiz-number">No.7</span><span class="status-badge" id="badge-q7">未解答</span></div>
+        <div class="quiz-word">salt</div>
+        <div class="choices-grid">
+            <button class="choice-btn" id="btn-q7-1" onclick="selectChoice('q7', 1, false)">･･･だから、･･･なので</button>
+            <button class="choice-btn" id="btn-q7-2" onclick="selectChoice('q7', 2, false)">濃い、どろっとした</button>
+            <button class="choice-btn" id="btn-q7-3" onclick="selectChoice('q7', 3, true)">塩</button>
+            <button class="choice-btn" id="btn-q7-4" onclick="selectChoice('q7', 4, false)">おすすめの･･･</button>
+        </div>
+        <div class="control-panel"><button class="btn-reset" onclick="resetQuizCard('q7')">リセット</button></div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="quiz-card" id="card-q8">
+        <div class="quiz-header"><span class="quiz-number">No.8</span><span class="status-badge" id="badge-q8">未解答</span></div>
+        <div class="quiz-word">and so on</div>
+        <div class="choices-grid">
+            <button class="choice-btn" id="btn-q8-1" onclick="selectChoice('q8', 1, false)">製造業者、メーカー</button>
+            <button class="choice-btn" id="btn-q8-2" onclick="selectChoice('q8', 2, false)">早い</button>
+            <button class="choice-btn" id="btn-q8-3" onclick="selectChoice('q8', 3, false)">特に、とりわけ</button>
+            <button class="choice-btn" id="btn-q8-4" onclick="selectChoice('q8', 4, true)">･･･など</button>
+        </div>
+        <div class="control-panel"><button class="btn-reset" onclick="resetQuizCard('q8')">リセット</button></div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="quiz-card" id="card-q9">
+        <div class="quiz-header"><span class="quiz-number">No.9</span><span class="status-badge" id="badge-q9">未解答</span></div>
+        <div class="quiz-word">speech</div>
+        <div class="choices-grid">
+            <button class="choice-btn" id="btn-q9-1" onclick="selectChoice('q9', 1, true)">スピーチ、演説</button>
+            <button class="choice-btn" id="btn-q9-2" onclick="selectChoice('q9', 2, false)">･･･を注文する</button>
+            <button class="choice-btn" id="btn-q9-3" onclick="selectChoice('q9', 3, false)">トッピング</button>
+            <button class="choice-btn" id="btn-q9-4" onclick="selectChoice('q9', 4, false)">いろいろな</button>
+        </div>
+        <div class="control-panel"><button class="btn-reset" onclick="resetQuizCard('q9')">リセット</button></div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="quiz-card" id="card-q10">
+        <div class="quiz-header"><span class="quiz-number">No.10</span><span class="status-badge" id="badge-q10">未解答</span></div>
+        <div class="quiz-word">sometime</div>
+        <div class="choices-grid">
+            <button class="choice-btn" id="btn-q10-1" onclick="selectChoice('q10', 1, false)">味、風味</button>
+            <button class="choice-btn" id="btn-q10-2" onclick="selectChoice('q10', 2, true)">いつか、そのうち</button>
+            <button class="choice-btn" id="btn-q10-3" onclick="selectChoice('q10', 3, false)">しょうゆ</button>
+            <button class="choice-btn" id="btn-q10-4" onclick="selectChoice('q10', 4, false)">塩</button>
+        </div>
+        <div class="control-panel"><button class="btn-reset" onclick="resetQuizCard('q10')">リセット</button></div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="quiz-card" id="card-q11">
+        <div class="quiz-header"><span class="quiz-number">No.11</span><span class="status-badge" id="badge-q11">未解答</span></div>
+        <div class="quiz-word">if</div>
+        <div class="choices-grid">
+            <button class="choice-btn" id="btn-q11-1" onclick="selectChoice('q11', 1, false)">･･･など</button>
+            <button class="choice-btn" id="btn-q11-2" onclick="selectChoice('q11', 2, false)">スピーチ、演説</button>
+            <button class="choice-btn" id="btn-q11-3" onclick="selectChoice('q11', 3, true)">もし･･･ならば</button>
+            <button class="choice-btn" id="btn-q11-4" onclick="selectChoice('q11', 4, false)">いろいろな</button>
+        </div>
+        <div class="control-panel"><button class="btn-reset" onclick="resetQuizCard('q11')">リセット</button></div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="quiz-card" id="card-q12">
+        <div class="quiz-header"><span class="quiz-number">No.12</span><span class="status-badge" id="badge-q12">未解答</span></div>
+        <div class="quiz-word">add</div>
+        <div class="choices-grid">
+            <button class="choice-btn" id="btn-q12-1" onclick="selectChoice('q12', 1, false)">味、風味</button>
+            <button class="choice-btn" id="btn-q12-2" onclick="selectChoice('q12', 2, false)">しょうゆ</button>
+            <button class="choice-btn" id="btn-q12-3" onclick="selectChoice('q12', 3, false)">パター</button>
+            <button class="choice-btn" id="btn-q12-4" onclick="selectChoice('q12', 4, true)">･･･を加える、足す</button>
+        </div>
+        <div class="control-panel"><button class="btn-reset" onclick="resetQuizCard('q12')">リセット</button></div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="quiz-card" id="card-q13">
+        <div class="quiz-header"><span class="quiz-number">No.13</span><span class="status-badge" id="badge-q13">未解答</span></div>
+        <div class="quiz-word">butter</div>
+        <div class="choices-grid">
+            <button class="choice-btn" id="btn-q13-1" onclick="selectChoice('q13', 1, true)">パター</button>
+            <button class="choice-btn" id="btn-q13-2" onclick="selectChoice('q13', 2, false)">･･･したい</button>
+            <button class="choice-btn" id="btn-q13-3" onclick="selectChoice('q13', 3, false)">興味をもっている</button>
+            <button class="choice-btn" id="btn-q13-4" onclick="selectChoice('q13', 4, false)">忘れる</button>
+        </div>
+        <div class="control-panel"><button class="btn-reset" onclick="resetQuizCard('q13')">リセット</button></div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="quiz-card" id="card-q14">
+        <div class="quiz-header"><span class="quiz-number">No.14</span><span class="status-badge" id="badge-q14">未解答</span></div>
+        <div class="quiz-word">would love to</div>
+        <div class="choices-grid">
+            <button class="choice-btn" id="btn-q14-1" onclick="selectChoice('q14', 1, false)">種類</button>
+            <button class="choice-btn" id="btn-q14-2" onclick="selectChoice('q14', 2, true)">･･･したい</button>
+            <button class="choice-btn" id="btn-q14-3" onclick="selectChoice('q14', 3, false)">･････をベースにした</button>
+            <button class="choice-btn" id="btn-q14-4" onclick="selectChoice('q14', 4, false)">･･･だから、･･･なので</button>
+        </div>
+        <div class="control-panel"><button class="btn-reset" onclick="resetQuizCard('q14')">リセット</button></div>
+    </div>
+
+</div>
+
+<script>
+    // ==========================================
+    // 🛠️ お父様の設定エリア
+    // ==========================================
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyRdyBForEEMa92JJYxMteVrtxSa1oh7AM9pQyLkArgbeCZ_-IqRJual2ItiX4Junyarg/exec";
+    const SUBJECT_NAME = "英語";
+    const PAGE_NAME = "Unit2単語_1to14"; // ポータル表示用に少し変更しました
+    // ==========================================
+
+    // 14問分の送信ロック管理
+    let submissionLocks = {};
+    for (let i = 1; i <= 14; i++) {
+        submissionLocks[`q${i}`] = false;
+    }
+
+    function selectChoice(quizId, choiceNum, isCorrect) {
+        if (submissionLocks[quizId]) return;
+        submissionLocks[quizId] = true;
+
+        const card = document.getElementById(`card-${quizId}`);
+        const badge = document.getElementById(`badge-${quizId}`);
+        const targetBtn = document.getElementById(`btn-${quizId}-${choiceNum}`);
+        
+        for (let i = 1; i <= 4; i++) {
+            document.getElementById(`btn-${quizId}-${i}`).classList.add('disabled');
+        }
+
+        let resultStatus = isCorrect ? "正解" : "不正解";
+
+        if (isCorrect) {
+            card.classList.add('status-correct');
+            targetBtn.classList.add('is-correct-choice');
+            if (badge) {
+                badge.innerText = "✨ 正解！送信中...";
+                badge.style.background = "#d1fae5"; badge.style.color = "#065f46";
+            }
+        } else {
+            card.classList.add('status-incorrect');
+            targetBtn.classList.add('is-wrong-choice');
+            if (badge) {
+                badge.innerText = "❌ 不正解...送信中...";
+                badge.style.background = "#fee2e2"; badge.style.color = "#991b1b";
+            }
+        }
+
+        const payload = {
+            subject: SUBJECT_NAME,
+            page: PAGE_NAME,
+            quizId: quizId,
+            status: resultStatus
+        };
+
+        fetch(WEB_APP_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            if (badge) {
+                badge.innerText = isCorrect ? "✨ 正解！(記録完了)" : "❌ 不正解(記録完了)";
+            }
+        })
+        .catch(err => {
+            console.error("通信失敗:", err);
+            if (badge) {
+                badge.innerText = "⚠️ 送信失敗・再試行可";
+                badge.style.background = "#fef9e7"; badge.style.color = "#f39c12";
+            }
+            submissionLocks[quizId] = false;
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`btn-${quizId}-${i}`).classList.remove('disabled');
+            }
+            targetBtn.classList.remove('is-correct-choice', 'is-wrong-choice');
+            card.classList.remove('status-correct', 'status-incorrect');
+        });
+    }
+
+    function resetQuizCard(quizId) {
+        submissionLocks[quizId] = false;
+        const card = document.getElementById(`card-${quizId}`);
+        const badge = document.getElementById(`badge-${quizId}`);
+
+        if (card) card.className = "quiz-card";
+        if (badge) {
+            badge.innerText = "未解答";
+            badge.style.background = "#e2e8f0"; badge.style.color = "#4a5568";
+        }
+
+        for (let i = 1; i <= 4; i++) {
+            const btn = document.getElementById(`btn-${quizId}-${i}`);
+            btn.classList.remove('disabled', 'is-correct-choice', 'is-wrong-choice');
+        }
+    }
+</script>
+
+</body>
+</html>
