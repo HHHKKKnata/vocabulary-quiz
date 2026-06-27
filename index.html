@@ -9,7 +9,7 @@
 
         body {
             font-family: 'M PLUS Rounded 1c', sans-serif;
-            background-color: #0f172a; /* 宇宙をイメージしたディープネイビー */
+            background-color: #0f172a;
             background-image: 
                 radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
                 radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
@@ -23,13 +23,13 @@
         .container {
             max-width: 550px;
             margin: 40px auto;
-            background: rgba(30, 41, 59, 0.7); /* 半透明のサイバーパネル風 */
+            background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             padding: 30px 25px;
             border-radius: 24px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.2);
-            border: 2px solid #3b82f6; /* エレクトリックブルーのフレーム */
+            border: 2px solid #3b82f6;
             box-sizing: border-box;
         }
         
@@ -43,7 +43,7 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 2.2rem;
             font-weight: 700;
-            color: #06b6d4; /* ルミナスシアン */
+            color: #06b6d4;
             text-shadow: 0 0 12px rgba(6, 182, 212, 0.6);
             margin: 0;
             letter-spacing: 2px;
@@ -124,18 +124,6 @@
             vertical-align: middle;
         }
         
-        .page-badge {
-            background-color: #475569;
-            color: #cbd5e1;
-            font-size: 0.75rem;
-            font-weight: bold;
-            padding: 4px 10px;
-            border-radius: 8px;
-            margin-right: 8px;
-            display: inline-block;
-            vertical-align: middle;
-        }
-        
         .unit-badge {
             background-color: #06b6d4;
             color: #0f172a;
@@ -184,7 +172,7 @@
         <p class="header-subtitle">🚀 英語 Room★ 単語トレーニング</p>
     </div>
 
-    <input type="text" id="search-input" class="search-box" placeholder="キーワード・Unit番号で検索..." autocomplete="off">
+    <input type="text" id="search-input" class="search-box" placeholder="キーワードでミッションを検索..." autocomplete="off">
 
     <ul id="link-list">
         <li class="loading">🛰️ ターゲット単語をスキャン中...</li>
@@ -217,61 +205,51 @@
             );
 
             const fetchPromises = htmlFiles.map(async (file) => {
-                const fileRes = await fetch(file.download_url);
-                const text = await fileRes.text();
+                try {
+                    const fileRes = await fetch(file.download_url);
+                    const text = await fileRes.text();
 
-                // ① <title>タグ内の文字列を抽出
-                const titleMatch = text.match(/<title>([\s\S]*?)<\/title>/i);
-                let fullTitle = titleMatch ? titleMatch[1].trim() : file.name;
+                    // ① <title>タグ内の文字列を抽出
+                    const titleMatch = text.match(/<title>([\s\S]*?)<\/title>/i);
+                    let fullTitle = titleMatch ? titleMatch[1].trim() : file.name;
 
-                // ② SUBJECT_NAME の値を抽出
-                const subjectMatch = text.match(/const\s+SUBJECT_NAME\s*=\s*["'](.*?)["']/);
-                const subjectName = subjectMatch ? subjectMatch[1] : "英語";
+                    // ② SUBJECT_NAME の値を抽出
+                    const subjectMatch = text.match(/const\s+SUBJECT_NAME\s*=\s*["'](.*?)["']/);
+                    const subjectName = subjectMatch ? subjectMatch[1] : "英語";
 
-                // ③ PAGE_NAME の値を抽出
-                const pageMatch = text.match(/const\s+PAGE_NAME\s*=\s*["'](.*?)["']/);
-                const pageName = pageMatch ? pageMatch[1] : "";
+                    // ③ PAGE_NAME の値を抽出（これが小文字の場合でも安全に処理）
+                    const pageMatch = text.match(/const\s+PAGE_NAME\s*=\s*["'](.*?)["']/);
+                    const pageName = pageMatch ? pageMatch[1] : file.name.replace('.html', '');
 
-                let type = 'page';
-                let displayNum = '';
-                let titleText = fullTitle;
-
-                // 🔍 判定ロジックの強化版（大文字小文字を無視、柔軟にマッチさせます）
-                if (/unit/i.test(pageName) || /unit/i.test(fullTitle)) {
-                    type = 'unit';
-                    // "Unit2単語_1" から「2」と「1」を抽出
-                    const numMatch = pageName.match(/Unit\s*(\d+)/i) || fullTitle.match(/Unit\s*(\d+)/i);
-                    const subMatch = pageName.match(/_(\d+)/) || fullTitle.match(/単語\s*(\d+)/) || fullTitle.match(/（No.*）/);
-                    
-                    const mainNum = numMatch ? numMatch[1] : '2';
-                    
-                    // サブ番号の表記をきれいに丸める
-                    let subNum = '';
-                    if (subMatch) {
-                        if (subMatch[1]) subNum = `-${subMatch[1]}`;
-                    } else if (pageName.includes('_1') || fullTitle.includes('1')) {
-                        subNum = '-1';
+                    // 🛠️ 最も安全なバッジ番号の抽出（エラーを起こさない鉄壁仕様）
+                    let displayNum = "2-1"; 
+                    const numExtract = pageName.match(/\d+/g);
+                    if (numExtract && numExtract.length >= 1) {
+                        displayNum = numExtract.join('-');
                     }
-                    
-                    displayNum = `${mainNum}${subNum}`; // "2-1" などの表記
-                    
-                    // タイトルをすっきり整形（英語 Room★ などを削る）
-                    titleText = fullTitle.replace(/^.*Room★\s*/i, '').trim();
-                } else {
-                    // 通常の教科書ページ
-                    const pageNumMatch = pageName.match(/\d+/) || file.name.match(/\d+/);
-                    displayNum = pageNumMatch ? pageNumMatch[0] : '00';
-                    titleText = fullTitle.replace(/^.*Room★\s*/i, '').trim();
-                }
 
-                return {
-                    path: file.name,
-                    subjectName: subjectName,
-                    pageName: pageName,
-                    type: type,
-                    displayNum: displayNum,
-                    titleText: titleText
-                };
+                    // 表示用タイトルから余計な文字列をきれいにカット
+                    let titleText = fullTitle.replace(/^.*Room★\s*/i, '').trim();
+                    if (!titleText) titleText = pageName;
+
+                    return {
+                        path: file.name,
+                        subjectName: subjectName,
+                        pageName: pageName,
+                        displayNum: displayNum,
+                        titleText: titleText
+                    };
+                } catch (innerError) {
+                    // 個別のファイル読み込みで万が一エラーが出ても全体を止めない
+                    console.error("ファイル解析スキップ:", file.name, innerError);
+                    return {
+                        path: file.name,
+                        subjectName: "英語",
+                        pageName: file.name,
+                        displayNum: "NEW",
+                        titleText: file.name
+                    };
+                }
             });
 
             allPages = await Promise.all(fetchPromises);
@@ -314,9 +292,8 @@
             const li = document.createElement('li');
             const a = document.createElement('a');
             
-            const badgeHtml = page.type === 'unit' 
-                ? `<span class="unit-badge">Unit.${page.displayNum}</span>`
-                : `<span class="page-badge">p.${page.displayNum}</span>`;
+            // バッジは「Unit.〇〇」に統一
+            const badgeHtml = `<span class="unit-badge">Unit.${page.displayNum}</span>`;
 
             a.innerHTML = `
                 <span>
