@@ -9,7 +9,7 @@
 
         body {
             font-family: 'M PLUS Rounded 1c', sans-serif;
-            background-color: #0f172a;
+            background-color: #0f172a; /* 宇宙をイメージしたディープネイビー */
             background-image: 
                 radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
                 radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px);
@@ -23,16 +23,17 @@
         .container {
             max-width: 550px;
             margin: 40px auto;
-            background: rgba(30, 41, 59, 0.7);
+            background: rgba(30, 41, 59, 0.7); /* 半透明のサイバーパネル風 */
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             padding: 30px 25px;
             border-radius: 24px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.2);
-            border: 2px solid #3b82f6;
+            border: 2px solid #3b82f6; /* エレクトリックブルーのフレーム */
             box-sizing: border-box;
         }
         
+        /* サイバー感のある近未来ヘッダー */
         .header {
             text-align: center;
             margin-bottom: 30px;
@@ -43,7 +44,7 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 2.2rem;
             font-weight: 700;
-            color: #06b6d4;
+            color: #06b6d4; /* ルミナスシアン */
             text-shadow: 0 0 12px rgba(6, 182, 212, 0.6);
             margin: 0;
             letter-spacing: 2px;
@@ -57,6 +58,7 @@
             letter-spacing: 0.05em;
         }
         
+        /* 検索ボックスもネオン風に */
         .search-box {
             width: 100%;
             padding: 14px 20px;
@@ -81,6 +83,7 @@
             color: #64748b;
         }
         
+        /* ミッションリスト */
         ul {
             list-style: none;
             padding: 0;
@@ -91,6 +94,7 @@
             margin-bottom: 14px;
         }
         
+        /* チケットリンク（サイバースペース仕様） */
         li a {
             display: flex;
             justify-content: space-between;
@@ -105,6 +109,7 @@
             transition: all 0.2s ease;
         }
         
+        /* スマホ用タップエフェクト */
         li a:active {
             transform: scale(0.98);
             border-color: #3b82f6;
@@ -112,8 +117,9 @@
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
         }
         
+        /* バッジスタイル */
         .subject-badge {
-            background-color: #3b82f6;
+            background-color: #3b82f6; /* 青 */
             color: #ffffff;
             font-size: 0.75rem;
             font-weight: bold;
@@ -124,6 +130,20 @@
             vertical-align: middle;
         }
         
+        /* ページバッジ（通常） */
+        .page-badge {
+            background-color: #475569;
+            color: #cbd5e1;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 8px;
+            margin-right: 8px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        /* 単語Unit専用バッジ（シアンネオン） */
         .unit-badge {
             background-color: #06b6d4;
             color: #0f172a;
@@ -152,6 +172,7 @@
             text-shadow: 0 0 6px rgba(6, 182, 212, 0.5);
         }
         
+        /* ローディング・エラー */
         .loading, .error {
             text-align: center;
             padding: 30px;
@@ -169,10 +190,10 @@
 <div class="container">
     <div class="header">
         <h1 class="header-logo">WORD MISSION</h1>
-        <p class="header-subtitle">🚀 英語 Room★ 単語トレーニング</p>
+        <p class="header-subtitle">🚀 クイズ Room★ 用語トレーニング</p>
     </div>
 
-    <input type="text" id="search-input" class="search-box" placeholder="キーワードでミッションを検索..." autocomplete="off">
+    <input type="text" id="search-input" class="search-box" placeholder="キーワード・Unit番号で検索..." autocomplete="off">
 
     <ul id="link-list">
         <li class="loading">🛰️ ターゲット単語をスキャン中...</li>
@@ -184,7 +205,7 @@
     // 🛠️ お父様の設定エリア
     // ==========================================
     const repoOwner = "HHHKKKnata"; 
-    const repoName = "vocabulary-quiz";
+    const repoName = "vocabulary-quiz";   
     // ==========================================
 
     const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/`;
@@ -192,92 +213,84 @@
 
     async function loadAllPages() {
         const listElement = document.getElementById('link-list');
-        const loadingElement = listElement.querySelector('.loading');
-
+        
         try {
             const response = await fetch(apiUrl);
-            if (!response.ok) throw new Error('リポジトリの接続に失敗しました');
+            if (!response.ok) throw new Error('リポジトリの接続に失敗しました。設定エリアのユーザー名やリポジトリ名が正しいかご確認ください。');
             const files = await response.json();
 
-            // 🌟 日本語ファイル名（エンコード済）も安全にキャッチできるように修正
-            const htmlFiles = files.filter(file => {
-                const decodedName = decodeURIComponent(file.name).toLowerCase();
-                return decodedName.endsWith('.html') && decodedName !== 'index.html';
-            });
+            // htmlファイルのみ抽出し、ファイル名から情報を判定（中身のフェッチはしないので爆速）
+            allPages = files
+                .filter(file => file.name.endsWith('.html') && file.name !== 'index.html')
+                .map(file => {
+                    const decodedName = decodeURIComponent(file.name);
+                    
+                    // 【判別ルール】
+                    // 例①: "Unit2-1-新出単語.html" や "Unit2_1_xxx.html"
+                    // 例②: "p55-単語.html" や "55単語.html"
+                    let type = 'page';
+                    let displayNum = '';
+                    let titleText = '';
+                    let sortKey = 0; // ソート用の数値
 
-            const fetchPromises = htmlFiles.map(async (file) => {
-                try {
-                    // 🌟 日本語URLを正しくデコードしてフェッチ
-                    const targetUrl = file.download_url;
-                    const fileRes = await fetch(targetUrl);
-                    const text = await fileRes.text();
+                    if (/Unit/i.test(decodedName)) {
+                        type = 'unit';
+                        // Unitの数字と、後ろに続く枝番（あれば）を抽出
+                        const unitMatch = decodedName.match(/Unit\s*(\d+)(?:[-_](\d+))?/i);
+                        const mainNum = unitMatch ? unitMatch[1] : '0';
+                        const subNum = unitMatch && unitMatch[2] ? `-${unitMatch[2]}` : '';
+                        displayNum = `${mainNum}${subNum}`;
+                        
+                        // ソート用に数値を計算 (例: Unit2-1 -> 201, Unit12-3 -> 1203)
+                        sortKey = (parseInt(mainNum, 10) * 100) + (unitMatch && unitMatch[2] ? parseInt(unitMatch[2], 10) : 0);
 
-                    // ① <title>タグ内の文字列を抽出
-                    const titleMatch = text.match(/<title>([\s\S]*?)<\/title>/i);
-                    let fullTitle = titleMatch ? titleMatch[1].trim() : decodeURIComponent(file.name);
+                        // タイトル文字列の整形（「UnitX-X」や「.html」を取り除く）
+                        titleText = decodedName.replace(/Unit\s*\d+[-_]?\d*[-_]?/i, '').replace('.html', '').trim();
+                        if (!titleText) titleText = "新出単語マスター";
+                    } else {
+                        // 通常のページ番号の場合
+                        type = 'page';
+                        const pageMatch = decodedName.match(/^(p?)(\d+)/i);
+                        const pageNum = pageMatch ? pageMatch[2] : '0';
+                        displayNum = pageNum;
+                        sortKey = parseInt(pageNum, 10);
 
-                    // ② SUBJECT_NAME の値を抽出
-                    const subjectMatch = text.match(/const\s+SUBJECT_NAME\s*=\s*["'](.*?)["']/);
-                    const subjectName = subjectMatch ? subjectMatch[1] : "英語";
-
-                    // ③ PAGE_NAME の値を抽出
-                    const pageMatch = text.match(/const\s+PAGE_NAME\s*=\s*["'](.*?)["']/);
-                    const pageName = pageMatch ? pageMatch[1] : decodeURIComponent(file.name).replace('.html', '');
-
-                    // バッジ番号の抽出（数字をハイフンで繋ぐ）
-                    let displayNum = "2-1"; 
-                    const numExtract = pageName.match(/\d+/g);
-                    if (numExtract && numExtract.length >= 1) {
-                        displayNum = numExtract.join('-');
+                        titleText = decodedName.replace(/^(p?)(\d+)[-_]?/i, '').replace('.html', '').trim();
+                        if (!titleText) titleText = "用語トレーニング";
                     }
 
-                    // 表示用タイトルから不要文字をカット
-                    let titleText = fullTitle.replace(/^.*Room★\s*/i, '').trim();
-                    if (!titleText) titleText = pageName;
-
                     return {
                         path: file.name,
-                        subjectName: subjectName,
-                        pageName: pageName,
+                        subjectName: "英語", // 単語リポジトリなので「英語」固定、必要に応じて変更可
+                        type: type,
                         displayNum: displayNum,
-                        titleText: titleText
+                        titleText: titleText,
+                        sortKey: sortKey
                     };
-                } catch (innerError) {
-                    console.error("ファイル解析スキップ:", file.name, innerError);
-                    const safeName = decodeURIComponent(file.name).replace('.html', '');
-                    return {
-                        path: file.name,
-                        subjectName: "英語",
-                        pageName: safeName,
-                        displayNum: "NEW",
-                        titleText: safeName
-                    };
-                }
-            });
+                });
 
-            allPages = await Promise.all(fetchPromises);
+            // ユニット番号/ページ番号の順に正しくソート
+            allPages.sort((a, b) => a.sortKey - b.sortKey);
 
-            // 並び替え
-            allPages.sort((a, b) => {
-                return a.pageName.localeCompare(b.pageName, undefined, {numeric: true, sensitivity: 'base'});
-            });
-
+            // リスト表示
             renderList(allPages);
 
-            // 検索機能
+            // 🔍 リアルタイム検索
             const searchInput = document.getElementById('search-input');
             searchInput.addEventListener('input', (e) => {
                 const keyword = e.target.value.toLowerCase().trim();
+                
                 const filtered = allPages.filter(page => {
                     return page.titleText.toLowerCase().includes(keyword) || 
-                           page.pageName.toLowerCase().includes(keyword) ||
-                           page.subjectName.toLowerCase().includes(keyword);
+                           page.displayNum.toLowerCase().includes(keyword) ||
+                           `unit.${page.displayNum}`.toLowerCase().includes(keyword) ||
+                           `p.${page.displayNum}`.toLowerCase().includes(keyword);
                 });
+                
                 renderList(filtered);
             });
 
         } catch (error) {
-            if (loadingElement) loadingElement.style.display = 'none';
             listElement.innerHTML = `<li class="error">⚠️ データ同期エラー: ${error.message}</li>`;
         }
     }
@@ -295,7 +308,9 @@
             const li = document.createElement('li');
             const a = document.createElement('a');
             
-            const badgeHtml = `<span class="unit-badge">Unit.${page.displayNum}</span>`;
+            const badgeHtml = page.type === 'unit' 
+                ? `<span class="unit-badge">Unit.${page.displayNum}</span>`
+                : `<span class="page-badge">p.${page.displayNum}</span>`;
 
             a.innerHTML = `
                 <span>
