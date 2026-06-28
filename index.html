@@ -187,7 +187,7 @@
     const repoName = "vocabulary-quiz";
     // ==========================================
 
-    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/git/trees/main?recursive=1`;
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/`;
     let allPages = [];
 
     async function loadAllPages() {
