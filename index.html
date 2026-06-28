@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Room★ Words Portal</title>
+    <title>Room★ 学習ポータル</title>
     <style>
-        /* 🌌 サイバーデザインのCSSを完全移植 */
+        /* 🌌 ここから下が、新しく差し替えたサイバーデザイン（CSS）です */
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=M+PLUS+Rounded+1c:wght@400;700&display=swap');
 
         body {
@@ -20,7 +20,6 @@
             margin: 0;
             padding: 20px;
         }
-        
         .container {
             max-width: 550px;
             margin: 40px auto;
@@ -36,10 +35,8 @@
         
         .title-box {
             text-align: center;
-            margin-bottom: 30px;
-            position: relative;
+            margin-bottom: 25px;
         }
-        
         h1 {
             font-family: 'Orbitron', sans-serif;
             font-size: 2.2rem;
@@ -49,25 +46,23 @@
             margin: 0;
             letter-spacing: 2px;
         }
-        
         .subtitle {
             font-size: 0.95rem;
             color: #94a3b8;
-            margin: 8px 0 0 0;
-            font-weight: bold;
-            letter-spacing: 0.05em;
+            margin: 5px 0 0 0;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
-        
+
         .search-container {
             margin-bottom: 25px;
             position: relative;
         }
-
         .search-input {
             width: 100%;
             padding: 14px 20px;
-            font-size: 1rem;
             font-family: inherit;
+            font-size: 1rem;
             font-weight: bold;
             border: 2px solid #334155;
             border-radius: 14px;
@@ -75,9 +70,9 @@
             color: #ffffff;
             box-sizing: border-box;
             transition: all 0.3s ease;
+            outline: none;
         }
         .search-input:focus {
-            outline: none;
             border-color: #06b6d4;
             box-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
             background-color: #0f172a;
@@ -85,21 +80,20 @@
         .search-input::placeholder {
             color: #64748b;
         }
-        
+
         ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        
         li {
-            margin-bottom: 14px;
+            margin-bottom: 16px;
         }
         
         a {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
             padding: 16px 20px;
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             border: 1px solid #475569;
@@ -108,74 +102,68 @@
             text-decoration: none;
             box-shadow: 0 4px 6px rgba(0,0,0,0.15);
             transition: all 0.2s ease;
+            box-sizing: border-box;
         }
-        
-        /* タップ・ホバー時のエフェクト */
-        a:hover, a:active {
-            transform: scale(0.98);
+        a:hover {
             border-color: #3b82f6;
             background: #1e293b;
             box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
         }
+        a:active {
+            transform: scale(0.98);
+        }
         
         .subject-badge {
             background-color: #3b82f6; /* エレクトリックブルー */
-            color: #ffffff;
-            font-size: 0.75rem;
-            font-weight: bold;
+            color: white;
             padding: 4px 10px;
             border-radius: 8px;
-            margin-right: 8px;
-            display: inline-block;
+            font-size: 0.75rem;
+            margin-right: 6px;
+            font-weight: bold;
             vertical-align: middle;
         }
-        
-        /* 「pバッジ」の代わりに「Unitネオンバッジ」化 */
         .page-badge {
-            background-color: #06b6d4; /* シアン */
+            background-color: #06b6d4; /* シアンネオン */
             color: #0f172a;
+            padding: 4px 10px;
+            border-radius: 8px;
             font-size: 0.75rem;
             font-weight: 900;
-            padding: 4px 10px;
-            border-radius: 8px;
-            margin-right: 8px;
-            display: inline-block;
-            vertical-align: middle;
             box-shadow: 0 0 8px rgba(6, 182, 212, 0.5);
+            margin-right: 6px;
         }
-        
         .ticket-title {
-            font-weight: bold;
-            font-size: 0.95rem;
             vertical-align: middle;
+            font-size: 0.95rem;
             color: #e2e8f0;
+            font-weight: bold;
         }
-        
         .arrow {
             color: #06b6d4;
             font-weight: bold;
             font-size: 0.9rem;
             transition: transform 0.2s;
             text-shadow: 0 0 6px rgba(6, 182, 212, 0.5);
+            margin-left: 10px;
         }
         a:hover .arrow {
             transform: translateX(4px);
         }
-        
         .loading {
             text-align: center;
-            padding: 30px;
-            font-weight: bold;
             color: #94a3b8;
+            padding: 30px;
             font-size: 0.95rem;
+            font-weight: bold;
         }
         .error {
-            text-align: center;
+            color: #ffffff;
             background: #f43f5e;
-            color: white;
             padding: 15px;
             border-radius: 12px;
             font-size: 0.9rem;
+            text-align: center;
             font-weight: bold;
         }
     </style>
@@ -185,11 +173,11 @@
 <div class="container">
     <div class="title-box">
         <h1>WORD MISSION</h1>
-        <p class="subtitle">🚀 クイズ Room★ 用語トレーニング</p>
+        <p class="subtitle">〜 今日のミッションを解き明かせ 〜</p>
     </div>
     
     <div class="search-container">
-        <input type="text" id="search-bar" class="search-input" placeholder="キーワード・Unit番号で検索...">
+        <input type="text" id="search-bar" class="search-input" placeholder="🔍 キーワード、単元名、ページ数で探す">
     </div>
     
     <div id="loading" class="loading">🛰️ ターゲット単語をスキャン中...</div>
@@ -198,16 +186,19 @@
 
 <script>
     // ==========================================
-    // 🛠️ お父様の設定エリア（確実に動いている設定を記述）
+    // 🛠️ お父様の設定エリア
     // ==========================================
-    const GITHUB_USER = "HHHKKKnata";  // お父様のユーザー名
-    const GITHUB_REPO = "vocabulary-quiz"; // 単語用のリポジトリ名
-    
-    // 単語を格納しているフォルダを設定（ルート直下なら空文字 ''、フォルダ内なら 'english' 等）
+    const GITHUB_USER = "HHHKKKNata"; 
+    const GITHUB_REPO = "vocabulary-quiz"; 
+    // ==========================================
+
     const SUBJECTS = [
-        { id: '', name: '英語' } 
+        { id: 'math', name: '数学' },
+        { id: 'english', name: '英語' },
+        { id: 'science', name: '理科' },
+        { id: 'social', name: '社会' },
+        { id: 'japanese', name: '国語' }
     ];
-    // ==========================================
 
     let allPages = [];
 
@@ -216,12 +207,8 @@
         const loadingElement = document.getElementById('loading');
         
         try {
-            // index_v4.html と全く同じ通信ロジック
             const fetchPromises = SUBJECTS.map(async (subj) => {
-                // サブフォルダがある場合とルート直下の場合でURLを切り替え
-                const pathSuffix = subj.id ? `/${subj.id}` : '';
-                const apiUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents${pathSuffix}`;
-                
+                const apiUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${subj.id}`;
                 const response = await fetch(apiUrl);
                 if (!response.ok) return [];
                 
@@ -229,13 +216,10 @@
                 
                 return files
                     .map(file => {
-                        // htmlファイルのみ抽出し、index.htmlは除外
-                        if (!file.name.endsWith('.html') || file.name === 'index.html') return null;
-
-                        // 日本語ファイル名をデコード
+                        // 日本語ファイル名を正しくデコード
                         const decodedName = decodeURIComponent(file.name);
                         
-                        // index_v4 と同じ正規表現で「数字」と「タイトル」を分離
+                        // p55.html や 55連立方程式.html の両方に対応するルール
                         const match = decodedName.match(/^(p?)(\d+)-?(.*?)\.html$/);
                         if (!match) return null;
 
@@ -243,17 +227,14 @@
                         let titleText = match[3] || "";
 
                         if (!titleText) {
-                            titleText = "トレーニングを開く";
+                            titleText = "のチケットを開く";
                         }
-
-                        // 各ファイルのリンク先パスを生成
-                        const linkPath = subj.id ? `${subj.id}/${file.name}` : file.name;
 
                         return {
                             fileName: file.name,
                             pageNum: pageNum,
                             titleText: titleText,
-                            path: linkPath,
+                            path: `${subj.id}/${file.name}`,
                             subjectName: subj.name
                         };
                     })
@@ -263,13 +244,13 @@
             const results = await Promise.all(fetchPromises);
             allPages = results.flat();
 
-            // ユニット（ページ）番号順に並べ替え
+            // ページ番号順に並べ替え
             allPages.sort((a, b) => parseInt(a.pageNum, 10) - parseInt(b.pageNum, 10));
 
             loadingElement.style.display = 'none';
             renderList(allPages);
 
-            // 🔍 リアルタイム検索（index_v4のロジックそのまま、「unit」でも引っかかるよう配慮）
+            // 🔍 リアルタイム検索
             document.getElementById('search-bar').addEventListener('input', (e) => {
                 const keyword = e.target.value.toLowerCase().trim();
                 
@@ -277,8 +258,7 @@
                     return page.subjectName.toLowerCase().includes(keyword) || 
                            page.titleText.toLowerCase().includes(keyword) ||
                            page.pageNum.includes(keyword) ||
-                           `unit${page.pageNum}`.includes(keyword) ||
-                           `u${page.pageNum}`.includes(keyword);
+                           `p${page.pageNum}`.includes(keyword);
                 });
                 
                 renderList(filtered);
@@ -286,7 +266,7 @@
 
         } catch (error) {
             loadingElement.style.display = 'none';
-            listElement.innerHTML = `<li class="error">⚠️ データ取得エラー: ${error.message}</li>`;
+            listElement.innerHTML = `<li class="error">⚠️ 工場データ取得エラー: ${error.message}</li>`;
         }
     }
 
@@ -303,7 +283,7 @@
             const li = document.createElement('li');
             const a = document.createElement('a');
             
-            // バッジの表記を「p.」から「Unit.」へ変更
+            // 👇 先ほどお父様が見つけた「p.」の組み立て部分です。ここを「Unit.」に書き換えます
             a.innerHTML = `
                 <span>
                     <span class="subject-badge">${page.subjectName}</span>
