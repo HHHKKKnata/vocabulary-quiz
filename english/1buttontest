@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>単語カード発音テスト</title>
+    <style>
+        .word-card {
+            display: inline-block;
+            padding: 15px 25px;
+            margin: 10px;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            border: 2px solid #333;
+            border-radius: 8px;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s;
+        }
+        .word-card:active {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>タップして発音を聴く</h1>
+    
+    <div class="word-card" data-lang="en-US">apple</div>
+    <div class="word-card" data-lang="en-US">beautiful</div>
+    <div class="word-card" data-lang="en-GB">schedule</div> <script>
+        // すべての単語カードにクリック（タップ）イベントを設定
+        document.querySelectorAll('.word-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const text = card.textContent;
+                const lang = card.getAttribute('data-lang') || 'en-US';
+                speak(text, lang);
+            });
+        });
+
+        // 読み上げを実行する関数
+        function speak(text, lang) {
+            // 💡 既に再生中の音声があれば停止（連打対策）
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+
+            // 発音の準備
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang; // 言語を設定 (en-US, en-GB など)
+            utterance.rate = 1.0;  // 速度 (0.1 〜 10)
+            utterance.pitch = 1.0; // ピッチ (0 〜 2)
+
+            // 再生
+            speechSynthesis.speak(utterance);
+        }
+    </script>
+</body>
+</html>
