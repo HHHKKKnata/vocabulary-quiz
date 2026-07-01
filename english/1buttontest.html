@@ -39,21 +39,48 @@
         });
 
         // 読み上げを実行する関数
-        function speak(text, lang) {
-            // 💡 既に再生中の音声があれば停止（連打対策）
-            if (speechSynthesis.speaking) {
-                speechSynthesis.cancel();
-            }
+        document.querySelectorAll('.word-card').forEach(card => {
+    card.addEventListener('click', () => {
+        const text = card.textContent;
+        const lang = card.getAttribute('data-lang') || 'en-US';
+        speak(text, lang);
+    });
+});
 
-            // 発音の準備
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = lang; // 言語を設定 (en-US, en-GB など)
-            utterance.rate = 1.0;  // 速度 (0.1 〜 10)
-            utterance.pitch = 1.0; // ピッチ (0 〜 2)
+function speak(text, lang) {
+    if (speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+    }
 
-            // 再生
-            speechSynthesis.speak(utterance);
-        }
+    // iOS対策の空再生
+    speechSynthesis.speak(new SpeechSynthesisUtterance(''));
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = lang;
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+
+    // 💡【重要】端末の音声リストから、指定した言語（en-USなど）に合うネイティブ音声を割り当てる
+    const voices = speechSynthesis.getVoices();
+    
+    // 指定された言語コード（例: "en-US"）を含む音声を探す
+    // 見つからない場合は、前方一致で "en-"（英語圏全般）を探す
+    let targetVoice = voices.find(v => v.lang === lang) || 
+                      voices.find(v => v.lang.startsWith(lang.split('-')[0]));
+
+    if (targetVoice) {
+        utterance.voice = targetVoice; // ネイティブ音声をセット！
+    }
+
+    speechSynthesis.speak(utterance);
+}
+
+// 💡 iOS/Chrome対策：音声リストがバックグラウンドで読み込まれるのを待つためのイベント
+if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = () => {
+        speechSynthesis.getVoices();
+    };
+}
     </script>
 </body>
 </html>
