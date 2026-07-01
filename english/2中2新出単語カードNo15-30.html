@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英語 Room★ Unit2 単語2（No.15〜30）マスター</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=M+PLUS+Rounded+1c:wght=400;700&display=swap');
+        
+        body {
+            font-family: 'M PLUS Rounded 1c', 'Kosugi Maru', sans-serif;
+            background-color: #f5f3ff;
+            color: #2d3748;
+            line-height: 1.6;
+            margin: 0;
+            padding: 12px;
+        }
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(109, 40, 217, 0.15);
+            border: 3px solid #6d28d9;
+        }
+        
+        .page-header {
+            text-align: center;
+            background: linear-gradient(135deg, #4c1d95 0%, #6d28d9 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 14px;
+            margin-bottom: 15px;
+        }
+        .page-header h1 { margin: 0; font-size: 1.3rem; font-weight: 700; }
+        .page-header p { margin: 5px 0 0 0; font-size: 0.8rem; opacity: 0.9; }
+        
+        .tabs-menu {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            background: #eee7fe;
+            padding: 5px;
+            border-radius: 12px;
+        }
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 10px 5px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #6d28d9;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .tab-btn.active {
+            background: #6d28d9;
+            color: white;
+            box-shadow: 0 4px 10px rgba(109, 40, 217, 0.3);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        .card {
+            background: #fafafa;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .card.status-correct { border-color: #10b981; background-color: #f0fdf4; }
+        .card.status-incorrect { border-color: #ef4444; background-color: #fef2f2; }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .word-trigger {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #4c1d95;
+            text-align: center;
+            margin: 10px 0;
+            cursor: pointer;
+            user-select: none;
+            display: block;
+            width: 100%;
+            background: none;
+            border: none;
+            font-family: inherit;
+        }
+        .word-trigger:active { opacity: 0.6; }
+        
+        .choices-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .choice-btn {
+            background: #ffffff; border: 2px solid #cbd5e1; border-radius: 12px;
+            padding: 12px 8px; font-family: inherit; font-size: 0.9rem; font-weight: 700;
+            color: #334155; cursor: pointer; box-shadow: 0 4px 0 #cbd5e1; text-align: center;
+        }
+        .choice-btn:active:not(.disabled) { transform: translateY(4px); box-shadow: 0 0 0 #cbd5e1; }
+        .choice-btn.is-correct-choice { background-color: #10b981 !important; border-color: #059669 !important; color: white !important; box-shadow: 0 4px 0 #047857 !important; }
+        .choice-btn.is-wrong-choice { background-color: #ef4444 !important; border-color: #dc2626 !important; color: white !important; box-shadow: 0 4px 0 #b91c1c !important; }
+        .choice-btn.disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .flex-row {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            margin: 15px 0;
+        }
+        .side-box {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        .side-word { background: #f3e8ff; color: #4c1d95; cursor: pointer; border: none; font-family: inherit; }
+        
+        .side-meaning {
+            background: #e2e8f0;
+            color: #64748b;
+            cursor: pointer;
+            border: 2px dashed #cbd5e1;
+            user-select: none;
+            font-size: 1.1rem;
+        }
+        .side-meaning.revealed {
+            background: #fff;
+            color: #2d3748;
+            border: 2px solid #cbd5e1;
+        }
+        
+        .judge-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .judge-btn {
+            flex: 1; padding: 8px; border: none; border-radius: 8px; font-family: inherit;
+            font-weight: bold; cursor: pointer; color: white; text-align: center; font-size: 0.85rem;
+        }
+        .btn-correct { background: #10b981; box-shadow: 0 3px 0 #059669; }
+        .btn-incorrect { background: #ef4444; box-shadow: 0 3px 0 #dc2626; }
+        .judge-btn:active { transform: translateY(3px); box-shadow: 0 0 0 transparent; }
+
+        .status-badge { font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: #e2e8f0; color: #4a5568; }
+        .control-panel { text-align: right; margin-top: 8px; }
+        .btn-reset { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; color: #64748b; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="page-header">
+        <h1>Unit 2 新出単語カード (No.15〜30 システム効果音版)</h1>
+        <p>🔊 単語タップで発音 / 解答時にデバイスから効果音が鳴ります</p>
+    </div>
+
+    <div class="tabs-menu">
+        <button class="tab-btn active" onclick="switchTab('layout1')">① 4択クイズ</button>
+        <button class="tab-btn" onclick="switchTab('layout2')">② 英 ➔ 和</button>
+        <button class="tab-btn" onclick="switchTab('layout3')">③ 和 ➔ 英</button>
+    </div>
+
+    <div id="layout1" class="tab-content active"></div>
+    <div id="layout2" class="tab-content"></div>
+    <div id="layout3" class="tab-content"></div>
+</div>
+
+<script>
+    // ==========================================
+    // 🛠️ お父様の設定・データエリア
+    // ==========================================
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz9PU-BAg5g-HnnpT_89gaYqNw_UpVEMoL714FTZL2ce13FyrsDD7Wa2OlpGtPw4snjHg/exec"; 
+    const SUBJECT_NAME = "英語";
+    const PAGE_NAME = "Unit2単語_15to30_MultiTab";
+
+    const wordMaster = [
+        { eng: "interested", jpn: "興味をもっている", dummies: ["忘れる", "種類", "おすすめの･･･"] },
+        { eng: "forget", jpn: "忘れる", dummies: ["気候", "濃い、どろっとした", "･･･を創造する、つくり出す"] },
+        { eng: "kind(s)", jpn: "種類", dummies: ["製造業者、メーカー", "創造性(力)、独創性(力)", "興味をもっている"] },
+        { eng: "based", jpn: "･････をベースにした", dummies: ["早い", "変化、変種", "外国の"] },
+        { eng: "because", jpn: "･･･だから、･･･なので", dummies: ["忘れる", "シェフ、料理長", "気候"] },
+        { eng: "thick", jpn: "濃い、どろっとした", dummies: ["種類", "おすすめの･･･", "lifeの複数形"] },
+        { eng: "recommended", jpn: "おすすめの･･･", dummies: ["製造業者、メーカー", "外国の", "変化、変種"] },
+        { eng: "manufacturer(s)", jpn: "製造業者、メーカー", dummies: ["早い", "創造性(力)、独創性(力)", "･････をベースにした"] },
+        { eng: "early", jpn: "早い", dummies: ["濃い、どろっとした", "シェフ、料理長", "(物事・考えなど)を反映する"] },
+        { eng: "be interested in -", jpn: "･･･に興味がある", dummies: ["種類の~", "･･･だから、･･･なので", "lifeの複数形"] },
+        { eng: "kind(s) of-", jpn: "種類の~", dummies: ["外国の", "変化、変種", "おすすめの･･･"] },
+        { eng: "reflect", jpn: "(物事・考えなど)を反映する", dummies: ["気候", "創造性(力)、独創性(力)", "･･･を創造する、つくり出す"] },
+        { eng: "climate(s)", jpn: "気候", dummies: ["早い", "lifeの複数形", "種類"] },
+        { eng: "lives", jpn: "lifeの複数形", dummies: ["興味をもっている", "シェフ、料理長", "変化、変種"] },
+        { eng: "creativity", jpn: "創造性(力)、独創性(力)", dummies: ["外国の", "製造業者、メーカー", "(物事・考えなど)を反映する"] },
+        { eng: "chef(s)", jpn: "シェフ、料理長", dummies: ["濃い、どろっとした", "･･･を創造する、つくり出す", "種類の~"] }
+    ];
+    // ==========================================
+
+    let submissionLocks = {};
+    let audioCtx = null;
+
+    function playSystemSound(isCorrect) {
+        try {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const now = audioCtx.currentTime;
+
+            if (isCorrect) {
+                const osc1 = audioCtx.createOscillator();
+                const gain1 = audioCtx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(523.25, now); 
+                osc1.frequency.setValueAtTime(659.25, now + 0.1); 
+                gain1.gain.setValueAtTime(0.2, now);
+                gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc1.connect(gain1);
+                gain1.connect(audioCtx.destination);
+                osc1.start(now);
+                osc1.stop(now + 0.3);
+            } else {
+                const osc2 = audioCtx.createOscillator();
+                const gain2 = audioCtx.createGain();
+                osc2.type = 'sawtooth'; 
+                osc2.frequency.setValueAtTime(140, now); 
+                gain2.gain.setValueAtTime(0.15, now);
+                gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                osc2.connect(gain2);
+                gain2.connect(audioCtx.destination);
+                osc2.start(now);
+                osc2.stop(now + 0.4);
+            }
+        } catch (e) {
+            console.error("AudioContextのエラーです:", e);
+        }
+    }
+
+    function shuffle(array) {
+        const arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function speak(text) {
+        if (speechSynthesis.speaking) speechSynthesis.cancel();
+        speechSynthesis.speak(new SpeechSynthesisUtterance('')); 
+        
+        const cleanText = text.replace(/\(s\)/g, 's').replace(/-$/, '').replace(/^-/, '');
+        const utterance = new SpeechSynthesisUtterance(cleanText);
+        utterance.lang = 'en-US';
+        
+        const voices = speechSynthesis.getVoices();
+        let targetVoice = voices.find(v => v.lang === 'en-US') || voices.find(v => v.lang.startsWith('en'));
+        if (targetVoice) utterance.voice = targetVoice;
+        
+        speechSynthesis.speak(utterance);
+    }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+        
+        event.target.classList.add('active');
+        document.getElementById(tabId).classList.add('active');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+        }
+        const shuffledWords = shuffle(wordMaster);
+        renderLayout1(shuffledWords);
+        renderLayout2(shuffledWords);
+        renderLayout3(shuffledWords);
+    });
+
+    function renderLayout1(words) {
+        const container = document.getElementById('layout1');
+        let html = '';
+        words.forEach((item, index) => {
+            const lockKey = `l1_${item.eng.replace(/[^a-zA-Z0-9]/g, '_')}`;
+            submissionLocks[lockKey] = false;
+
+            let choices = [{ text: item.jpn, isCorrect: true }];
+            item.dummies.forEach(d => choices.push({ text: d, isCorrect: false }));
+            choices = shuffle(choices);
+
+            html += `
+                <div class="card" id="card-${lockKey}">
+                    <div class="card-header"><span class="status-badge" style="background:#6d28d9;color:white;">No.${index+1}</span><span class="status-badge" id="badge-${lockKey}">未解答</span></div>
+                    <button class="word-trigger" onclick="speak('${item.eng.replace(/'/g, "\\'")}')">${item.eng} 🔊</button>
+                    <div class="choices-grid">
+                        ${choices.map((c, i) => `
+                            <button class="choice-btn" id="btn-${lockKey}-${i}" onclick="selectChoice1('${lockKey}', '${item.eng.replace(/'/g, "\\'")}', ${c.isCorrect}, ${i})">${c.text}</button>
+                        `).join('')}
+                    </div>
+                    <div class="control-panel"><button class="btn-reset" onclick="resetCard1('${lockKey}', ${choices.length})">リセット</button></div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function renderLayout2(words) {
+        const container = document.getElementById('layout2');
+        let html = '';
+        words.forEach((item, index) => {
+            const lockKey = `l2_${item.eng.replace(/[^a-zA-Z0-9]/g, '_')}`;
+            submissionLocks[lockKey] = false;
+            html += `
+                <div class="card" id="card-${lockKey}">
+                    <div class="card-header"><span class="status-badge" style="background:#4c1d95;color:white;">No.${index+1}</span><span class="status-badge" id="badge-${lockKey}">未解答</span></div>
+                    <div class="flex-row">
+                        <button class="side-box side-word" onclick="speak('${item.eng.replace(/'/g, "\\'")}')">${item.eng} 🔊</button>
+                        <div class="side-box side-meaning" id="mean-${lockKey}" onclick="this.classList.add('revealed'); this.innerText='${item.jpn}';">タップして答えを見る</div>
+                        <div class="judge-actions">
+                            <button class="judge-btn btn-correct" onclick="submitManualResult('${lockKey}', '${item.eng.replace(/'/g, "\\'")}', 'レイアウト2(英➔和)', '正解', true)">⭕ 正解</button>
+                            <button class="judge-btn btn-incorrect" onclick="submitManualResult('${lockKey}', '${item.eng.replace(/'/g, "\\'")}', 'レイアウト2(英➔和)', '不正解', true)">❌ 不正解</button>
+                        </div>
+                    </div>
+                    <div class="control-panel"><button class="btn-reset" onclick="resetCard23('${lockKey}', 'タップして答えを見る')">リセット</button></div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function renderLayout3(words) {
+        const container = document.getElementById('layout3');
+        let html = '';
+        words.forEach((item, index) => {
+            const lockKey = `l3_${item.eng.replace(/[^a-zA-Z0-9]/g, '_')}`;
+            submissionLocks[lockKey] = false;
+            html += `
+                <div class="card" id="card-${lockKey}">
+                    <div class="card-header"><span class="status-badge" style="background:#7c3aed;color:white;">No.${index+1}</span><span class="status-badge" id="badge-${lockKey}">未解答</span></div>
+                    <div class="flex-row">
+                        <div class="side-box" style="background:#fff; border:2px solid #ddd;">${item.jpn}</div>
+                        <div class="side-box side-meaning" id="mean-${lockKey}" onclick="revealMeaning3('${lockKey}', '${item.eng.replace(/'/g, "\\'")}')">タップして英語を見る 🔊</div>
+                        <div class="judge-actions">
+                            <button class="judge-btn btn-correct" onclick="submitManualResult('${lockKey}', '${item.eng.replace(/'/g, "\\'")}', 'レイアウト3(和➔英)', '正解', false)">⭕ 正解</button>
+                            <button class="judge-btn btn-incorrect" onclick="submitManualResult('${lockKey}', '${item.eng.replace(/'/g, "\\'")}', 'レイアウト3(和➔英)', '不正解', false)">❌ 不正解</button>
+                        </div>
+                    </div>
+                    <div class="control-panel"><button class="btn-reset" onclick="resetCard23('${lockKey}', 'タップして英語を見る 🔊')">リセット</button></div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    // レイアウト3専用：答えの英語を開示し、音声を発声させる
+    function revealMeaning3(lockKey, englishWord) {
+        const meanBox = document.getElementById(`mean-${lockKey}`);
+        if (!meanBox.classList.contains('revealed')) {
+            meanBox.classList.add('revealed');
+            meanBox.innerText = englishWord;
+            speak(englishWord);
+        }
+    }
+
+    function sendToSpreadsheet(wordId, layoutName, resultStatus, badgeId, onComplete, onError) {
+        const payload = {
+            subject: SUBJECT_NAME,
+            page: PAGE_NAME,
+            quizId: wordId,     
+            layout: layoutName, 
+            status: resultStatus
+        };
+
+        fetch(WEB_APP_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+        .then(() => { if(onComplete) onComplete(); })
+        .catch(err => { console.error(err); if(onError) onError(); });
+    }
+
+    function selectChoice1(lockKey, wordId, isCorrect, choiceIdx) {
+        if (submissionLocks[lockKey]) return;
+        submissionLocks[lockKey] = true;
+
+        playSystemSound(isCorrect);
+
+        const card = document.getElementById(`card-${lockKey}`);
+        const badge = document.getElementById(`badge-${lockKey}`);
+        const targetBtn = document.getElementById(`btn-${lockKey}-${choiceIdx}`);
+
+        const parent = targetBtn.parentElement;
+        parent.querySelectorAll('.choice-btn').forEach(b => b.classList.add('disabled'));
+
+        if (isCorrect) {
+            card.classList.add('status-correct');
+            targetBtn.classList.add('is-correct-choice');
+            badge.innerText = "✨ 正解！送信中...";
+            badge.style.background = "#d1fae5"; badge.style.color = "#065f46";
+        } else {
+            card.classList.add('status-incorrect');
+            targetBtn.classList.add('is-wrong-choice');
+            badge.innerText = "❌ 不正解...送信中...";
+            badge.style.background = "#fee2e2"; badge.style.color = "#991b1b";
+        }
+
+        sendToSpreadsheet(wordId, "レイアウト1(4択)", isCorrect ? "正解" : "不正解", badge, 
+            () => { badge.innerText = isCorrect ? "✨ 正解！(記録完了)" : "❌ 不正解(記録完了)"; },
+            () => { 
+                badge.innerText = "⚠️ 送信失敗・再試行可";
+                submissionLocks[lockKey] = false;
+                parent.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('disabled'));
+            }
+        );
+    }
+
+    function submitManualResult(lockKey, wordId, layoutName, resultStatus, shouldSpeakOnTrigger) {
+        if (submissionLocks[lockKey]) return;
+        submissionLocks[lockKey] = true;
+
+        const isCorrect = (resultStatus === "正解");
+        playSystemSound(isCorrect);
+
+        const card = document.getElementById(`card-${lockKey}`);
+        const badge = document.getElementById(`badge-${lockKey}`);
+        const meanBox = document.getElementById(`mean-${lockKey}`);
+
+        // まだめくられていない場合、めくる処理を実行
+        if (!meanBox.classList.contains('revealed')) {
+            meanBox.classList.add('revealed');
+            if (layoutName.includes('レイアウト2')) {
+                // レイアウト2は日本語を表示
+                const wordObj = wordMaster.find(w => w.eng === wordId);
+                meanBox.innerText = wordObj ? wordObj.jpn : "";
+            } else {
+                // レイアウト3は英語を表示（ただし、ここではボタン経由なので引数 shouldSpeakOnTrigger に応じて発声を制御）
+                meanBox.innerText = wordId;
+                if (shouldSpeakOnTrigger) {
+                    speak(wordId);
+                }
+            }
+        }
+
+        if (isCorrect) {
+            card.classList.add('status-correct');
+            badge.innerText = "✨ 正解！送信中...";
+            badge.style.background = "#d1fae5"; badge.style.color = "#065f46";
+        } else {
+            card.classList.add('status-incorrect');
+            badge.innerText = "❌ 不正解...送信中...";
+            badge.style.background = "#fee2e2"; badge.style.color = "#991b1b";
+        }
+
+        sendToSpreadsheet(wordId, layoutName, resultStatus, badge,
+            () => { badge.innerText = `${resultStatus}(記録完了)`; },
+            () => { badge.innerText = "⚠️ 送信失敗・再試行可"; submissionLocks[lockKey] = false; }
+        );
+    }
+
+    function resetCard1(lockKey, choicesCount) {
+        submissionLocks[lockKey] = false;
+        const card = document.getElementById(`card-${lockKey}`);
+        const badge = document.getElementById(`badge-${lockKey}`);
+        card.className = "card";
+        badge.innerText = "未解答"; badge.style.background = "#e2e8f0"; badge.style.color = "#4a5568";
+        
+        for (let i = 0; i < choicesCount; i++) {
+            const btn = document.getElementById(`btn-${lockKey}-${i}`);
+            if(btn) btn.className = "choice-btn";
+        }
+    }
+
+    function resetCard23(lockKey, defaultText) {
+        submissionLocks[lockKey] = false;
+        const card = document.getElementById(`card-${lockKey}`);
+        const badge = document.getElementById(`badge-${lockKey}`);
+        const meanBox = document.getElementById(`mean-${lockKey}`);
+        
+        card.className = "card";
+        badge.innerText = "未解答"; badge.style.background = "#e2e8f0"; badge.style.color = "#4a5568";
+        meanBox.className = "side-box side-meaning";
+        meanBox.innerText = defaultText;
+    }
+</script>
+
+</body>
+</html>
